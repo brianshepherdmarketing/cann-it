@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  status    String   @default("scheduled") // scheduled | active | complete | archived
+
+  customerName  String
+  customerEmail String
+  customerPhone String
+  customerType  String // residential | construction
+
+  dumpsterSize    String   // small | large
+  dropoffDate     DateTime
+  pickupDate      DateTime
+  deliveryAddress String
+  notes           String?
+
+  estimatedTotal Float
+  finalTotal     Float?
+  depositPaid    Float  @default(500)
+  balanceCharged Float?
+
+  stripeCustomerId             String?
+  stripePaymentMethodId        String?
+  stripeDepositPaymentIntentId String?
+  stripeBalancePaymentIntentId String?
+}
