@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -28,19 +29,23 @@ export default function SplashPage({
   searchParams: { error?: string };
 }) {
   return (
-    <main className="min-h-screen bg-brand-black flex flex-col items-center justify-center px-4">
-      <div className="text-center mb-12">
-        <h1 className="font-heading text-7xl md:text-9xl font-extrabold uppercase leading-none tracking-tight text-white">
-          CANN-<span className="text-brand-amber">IT</span>
-        </h1>
-        <p className="font-heading text-2xl md:text-4xl font-extrabold uppercase text-gray-400 tracking-widest mt-4">
+    <main className="min-h-screen bg-brand-light flex flex-col items-center justify-center px-4">
+      <div className="flex flex-col items-center mb-10">
+        <Image
+          src="/logo.png"
+          alt="Cann-It Dumpster Rentals"
+          width={260}
+          height={78}
+          priority
+        />
+        <p className="font-heading text-base font-bold uppercase text-gray-400 tracking-widest mt-4">
           YOU FILL IT, WE SPILL IT
         </p>
       </div>
 
       <form action={login} className="w-full max-w-sm space-y-3">
         {searchParams.error && (
-          <p className="text-red-400 text-sm text-center">
+          <p className="text-red-500 text-sm text-center">
             Invalid username or password.
           </p>
         )}
@@ -49,18 +54,18 @@ export default function SplashPage({
           type="text"
           placeholder="Username"
           autoComplete="username"
-          className="w-full bg-brand-dark border border-gray-700 text-white placeholder-gray-600 px-4 py-3 rounded-lg focus:outline-none focus:border-brand-amber transition-colors"
+          className="w-full bg-white border border-gray-300 text-brand-black placeholder-gray-400 px-4 py-3 rounded-lg focus:outline-none focus:border-brand-orange transition-colors"
         />
         <input
           name="password"
           type="password"
           placeholder="Password"
           autoComplete="current-password"
-          className="w-full bg-brand-dark border border-gray-700 text-white placeholder-gray-600 px-4 py-3 rounded-lg focus:outline-none focus:border-brand-amber transition-colors"
+          className="w-full bg-white border border-gray-300 text-brand-black placeholder-gray-400 px-4 py-3 rounded-lg focus:outline-none focus:border-brand-orange transition-colors"
         />
         <button
           type="submit"
-          className="w-full bg-brand-amber hover:bg-amber-400 text-brand-black font-bold uppercase tracking-wide py-3 rounded-lg transition-colors"
+          className="w-full bg-brand-orange hover:opacity-90 text-white font-bold uppercase tracking-wide py-3 rounded-lg transition-opacity"
         >
           Enter
         </button>

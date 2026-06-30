@@ -32,7 +32,7 @@ export default function Home() {
             <h1 className="font-heading text-6xl md:text-8xl font-extrabold uppercase leading-none tracking-tight mb-6">
               DUMPSTERS.
               <br />
-              <span className="text-brand-amber">DELIVERED.</span>
+              <span className="text-brand-orange">DELIVERED.</span>
               <br />
               DONE.
             </h1>
@@ -43,7 +43,7 @@ export default function Home() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/order">
-                <Button className="bg-brand-amber hover:bg-amber-400 text-brand-black font-bold text-base px-8 py-6 uppercase tracking-wide">
+                <Button className="bg-brand-orange hover:opacity-90 text-brand-black font-bold text-base px-8 py-6 uppercase tracking-wide">
                   Get a Quote
                 </Button>
               </Link>
@@ -67,9 +67,9 @@ export default function Home() {
             • [STAT 4] Service area description (city/region name)
             • Optional: any certifications, years in business, etc.
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="bg-brand-amber">
+      <section className="bg-brand-orange">
         <div className="max-w-6xl mx-auto px-4 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-brand-black">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
             {[
               { stat: "[###]+", label: "HAULS COMPLETED" },       // ← [STAT 1] real number
               { stat: "SAME-DAY", label: "DROP-OFF AVAILABLE" },
@@ -134,7 +134,7 @@ export default function Home() {
               },
             ].map(({ step, title, body, img }) => (
               <div key={step} className="relative">
-                <div className="font-heading text-9xl font-extrabold text-brand-amber/15 absolute -top-6 -left-2 select-none leading-none">
+                <div className="font-heading text-9xl font-extrabold text-brand-orange/15 absolute -top-6 -left-2 select-none leading-none">
                   {step}
                 </div>
                 {/* IMAGE SLOT */}
@@ -184,7 +184,7 @@ export default function Home() {
                 Recommended: bright, daytime, 800×500px+
               </div>
               <div className="p-7">
-                <span className="inline-block bg-brand-amber/10 text-brand-amber text-xs font-bold tracking-widest px-3 py-1 rounded-full mb-3 uppercase">
+                <span className="inline-block bg-brand-orange/10 text-brand-orange text-xs font-bold tracking-widest px-3 py-1 rounded-full mb-3 uppercase">
                   Residential
                 </span>
                 <h3 className="font-heading text-2xl font-extrabold text-brand-black uppercase mb-3">
@@ -212,7 +212,7 @@ export default function Home() {
                 Can be gritty/industrial, 800×500px+
               </div>
               <div className="p-7">
-                <span className="inline-block bg-brand-amber/20 text-brand-amber text-xs font-bold tracking-widest px-3 py-1 rounded-full mb-3 uppercase">
+                <span className="inline-block bg-brand-orange/20 text-brand-orange text-xs font-bold tracking-widest px-3 py-1 rounded-full mb-3 uppercase">
                   Construction
                 </span>
                 <h3 className="font-heading text-2xl font-extrabold text-white uppercase mb-3">
@@ -239,17 +239,17 @@ export default function Home() {
           No content needed — pulls from pricing.ts automatically.
           Only update if rates change.
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section id="pricing" className="bg-brand-dark py-24">
+      <section id="pricing" className="bg-brand-cream py-24">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="font-heading text-4xl md:text-6xl font-extrabold text-white uppercase text-center mb-4">
+          <h2 className="font-heading text-4xl md:text-6xl font-extrabold text-brand-black uppercase text-center mb-4">
             GET YOUR PRICE
           </h2>
           {/* ↓ [SUBHEAD] Replace with final copy */}
-          <p className="text-center text-gray-400 mb-14 max-w-xl mx-auto">
+          <p className="text-center text-gray-500 mb-14 max-w-xl mx-auto">
             No haggling. No surprises. What you see is what you pay.
           </p>
           <PricingCalculator />
-          <p className="text-center text-gray-600 text-xs mt-4">
+          <p className="text-center text-gray-500 text-xs mt-4">
             * Non-waste items requiring special disposal (tires, appliances, hazardous materials, etc.) may be subject to additional surcharge fees.
           </p>
         </div>
@@ -291,13 +291,13 @@ export default function Home() {
                   "[Town 6]",
                 ].map((t) => (
                   <div key={t} className="flex items-center gap-2">
-                    <span className="text-brand-amber font-bold">✓</span>
+                    <span className="text-brand-orange font-bold">✓</span>
                     {t}
                   </div>
                 ))}
               </div>
               <Link href="/order">
-                <Button className="bg-brand-amber hover:bg-amber-400 text-brand-black font-bold uppercase tracking-wide">
+                <Button className="bg-brand-orange hover:opacity-90 text-brand-black font-bold uppercase tracking-wide">
                   Book Your Drop-Off
                 </Button>
               </Link>
@@ -322,7 +322,7 @@ export default function Home() {
             • [CTA HEADLINE] 4–6 words, urgent, direct
             • [CTA SUBHEAD] 1 sentence — urgency or reassurance
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="bg-brand-amber py-20">
+      <section className="bg-brand-orange py-20">
         <div className="max-w-3xl mx-auto px-4 text-center">
           {/* ↓ [CTA HEADLINE] Replace with final copy */}
           <h2 className="font-heading text-5xl md:text-6xl font-extrabold text-brand-black uppercase mb-4">

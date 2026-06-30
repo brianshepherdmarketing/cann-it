@@ -19,12 +19,15 @@
 ---
 
 ## Brand
-- **Primary:** `#F5A623` (construction amber)
-- **Base:** `#1A1A1A` (near black)
-- **Accent light:** `#FFFFFF`
-- **Neutral:** `#2C2C2C`, `#4A4A4A`
+- **Primary:** `#E8620C` orange — Tailwind class: `brand-orange` (replaces old `brand-amber`)
+- **Base:** `#1A1A1A` near-black — `brand-black`
+- **Dark neutral:** `#2C2C2C` — `brand-dark`
+- **Gray:** `#4A4A4A` — `brand-gray`
+- **Light bg:** `#FAF8F5` warm off-white — `brand-light`
+- **Cream section bg:** `#F0EDEA` — `brand-cream`
+- **Theme:** Light — warm off-white background, dark footer, hero stays dark (for future full-bleed photo)
 - **Tone:** Confident, direct, industrial — not mom & pop, not corporate
-- **Logo:** TBD — typographic wordmark in progress (Illustrator)
+- **Logo:** `/public/logo.png` — orange dumpster illustration + CANN-IT DUMPSTER RENTALS wordmark. Always use `<Image src="/logo.png" />`, never the old text span format.
 
 ---
 

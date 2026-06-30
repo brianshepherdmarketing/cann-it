@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -102,28 +103,35 @@ export default function AdminPage() {
   // ── Password gate ──
   if (!authed) {
     return (
-      <main className="min-h-screen bg-brand-black flex items-center justify-center">
-        <div className="bg-brand-dark rounded-2xl p-8 w-full max-w-sm shadow-2xl">
-          <div className="font-heading text-2xl font-extrabold text-white text-center mb-6 tracking-widest uppercase">
-            CANN-<span className="text-brand-amber">IT</span> — Admin
+      <main className="min-h-screen bg-brand-light flex items-center justify-center">
+        <div className="bg-white rounded-2xl p-8 w-full max-w-sm shadow-lg border border-gray-200">
+          <div className="flex flex-col items-center mb-6">
+            <Image
+              src="/logo.png"
+              alt="Cann-It Dumpster Rentals"
+              width={180}
+              height={54}
+              priority
+            />
+            <p className="text-xs text-gray-400 uppercase tracking-widest mt-3">Admin Portal</p>
           </div>
           <div className="space-y-4">
             <div>
-              <Label className="text-gray-400 text-sm">Password</Label>
+              <Label className="text-gray-600 text-sm">Password</Label>
               <Input
                 type="password"
                 value={pw}
                 onChange={(e) => setPw(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && login()}
-                className="mt-1 bg-brand-black border-brand-gray text-white placeholder:text-gray-600"
+                className="mt-1"
                 placeholder="Enter admin password"
               />
             </div>
             {pwError && (
-              <p className="text-red-400 text-xs">{pwError}</p>
+              <p className="text-red-500 text-xs">{pwError}</p>
             )}
             <Button
-              className="w-full bg-brand-amber hover:bg-amber-400 text-brand-black font-bold uppercase"
+              className="w-full bg-brand-orange hover:opacity-90 text-white font-bold uppercase"
               onClick={login}
             >
               Log In
@@ -136,9 +144,10 @@ export default function AdminPage() {
 
   // ── Admin header ──
   const AdminBar = () => (
-    <div className="bg-brand-black text-white px-6 py-4 flex items-center justify-between">
-      <div className="font-heading text-xl font-extrabold tracking-widest uppercase">
-        CANN-<span className="text-brand-amber">IT</span> — Admin
+    <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-sm">
+      <div className="flex items-center gap-3">
+        <Image src="/logo.png" alt="Cann-It" width={130} height={39} />
+        <span className="text-xs text-gray-400 uppercase tracking-widest border-l border-gray-200 pl-3">Admin</span>
       </div>
       <button
         onClick={() => {
@@ -146,7 +155,7 @@ export default function AdminPage() {
           setPw("");
           setSelectedId(null);
         }}
-        className="text-xs text-gray-400 hover:text-brand-amber transition-colors"
+        className="text-xs text-gray-400 hover:text-brand-orange transition-colors"
       >
         Sign Out
       </button>
@@ -254,7 +263,7 @@ export default function AdminPage() {
                   </p>
                 )}
                 <Button
-                  className="bg-brand-amber hover:bg-amber-400 text-brand-black font-bold uppercase"
+                  className="bg-brand-orange hover:opacity-90 text-white font-bold uppercase"
                   onClick={handleCharge}
                   disabled={!finalTotal || balance <= 0 || charging}
                 >
@@ -295,7 +304,7 @@ export default function AdminPage() {
             <button
               key={job.id}
               onClick={() => setSelectedId(job.id)}
-              className="w-full bg-white rounded-xl border border-gray-200 p-5 text-left hover:border-brand-amber transition-colors"
+              className="w-full bg-white rounded-xl border border-gray-200 p-5 text-left hover:border-brand-orange transition-colors"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="font-semibold text-brand-black">

@@ -110,7 +110,7 @@ export default function OrderPage() {
               <div
                 className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
                   step >= s
-                    ? "bg-brand-amber text-brand-black"
+                    ? "bg-brand-orange text-brand-black"
                     : "bg-gray-200 text-gray-500"
                 }`}
               >
@@ -126,7 +126,7 @@ export default function OrderPage() {
               {i < 2 && (
                 <div
                   className={`mx-3 h-px w-10 md:w-16 flex-shrink-0 transition-colors ${
-                    step > s ? "bg-brand-amber" : "bg-gray-200"
+                    step > s ? "bg-brand-orange" : "bg-gray-200"
                   }`}
                 />
               )}
@@ -190,7 +190,7 @@ export default function OrderPage() {
                         onClick={() => set("customerType", t)}
                         className={`py-3 rounded-xl border-2 text-sm font-bold uppercase tracking-wide transition-colors ${
                           form.customerType === t
-                            ? "border-brand-amber bg-brand-amber/10 text-brand-black"
+                            ? "border-brand-orange bg-brand-orange/10 text-brand-black"
                             : "border-gray-200 text-gray-500 hover:border-gray-300"
                         }`}
                       >
@@ -208,7 +208,7 @@ export default function OrderPage() {
                       type="button"
                       onClick={() => handleRentalDaysChange(form.rentalDays - 1)}
                       disabled={form.rentalDays <= 1}
-                      className="w-10 h-10 rounded-lg bg-white border border-gray-200 text-xl font-bold text-brand-black hover:border-brand-amber transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+                      className="w-10 h-10 rounded-lg bg-white border border-gray-200 text-xl font-bold text-brand-black hover:border-brand-orange transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
                     >
                       −
                     </button>
@@ -228,7 +228,7 @@ export default function OrderPage() {
                       type="button"
                       onClick={() => handleRentalDaysChange(form.rentalDays + 1)}
                       disabled={form.rentalDays >= 30}
-                      className="w-10 h-10 rounded-lg bg-white border border-gray-200 text-xl font-bold text-brand-black hover:border-brand-amber transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+                      className="w-10 h-10 rounded-lg bg-white border border-gray-200 text-xl font-bold text-brand-black hover:border-brand-orange transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
                     >
                       +
                     </button>
@@ -240,7 +240,7 @@ export default function OrderPage() {
               </div>
 
               <Button
-                className="mt-8 w-full bg-brand-amber hover:bg-amber-400 text-brand-black font-bold py-6 uppercase tracking-wide"
+                className="mt-8 w-full bg-brand-orange hover:opacity-90 text-brand-black font-bold py-6 uppercase tracking-wide"
                 onClick={() => setStep(2)}
                 disabled={!step1Valid}
               >
@@ -270,7 +270,7 @@ export default function OrderPage() {
                         onClick={() => set("dumpsterSize", s)}
                         className={`py-4 rounded-xl border-2 text-sm font-bold transition-colors ${
                           form.dumpsterSize === s
-                            ? "border-brand-amber bg-brand-amber/10 text-brand-black"
+                            ? "border-brand-orange bg-brand-orange/10 text-brand-black"
                             : "border-gray-200 text-gray-500 hover:border-gray-300"
                         }`}
                       >
@@ -310,7 +310,7 @@ export default function OrderPage() {
                 </div>
 
                 <div className={`rounded-xl border-2 p-4 transition-colors ${
-                  form.pickupDate ? "border-brand-amber/30 bg-brand-amber/5" : "border-gray-100 bg-gray-50"
+                  form.pickupDate ? "border-brand-orange/30 bg-brand-orange/5" : "border-gray-100 bg-gray-50"
                 }`}>
                   <div className="flex items-start justify-between">
                     <div>
@@ -328,7 +328,7 @@ export default function OrderPage() {
                       <button
                         type="button"
                         onClick={() => setStep(1)}
-                        className="text-xs text-brand-amber hover:underline mt-0.5"
+                        className="text-xs text-brand-orange hover:underline mt-0.5"
                       >
                         Change duration
                       </button>
@@ -354,7 +354,7 @@ export default function OrderPage() {
                   ← Back
                 </Button>
                 <Button
-                  className="flex-1 bg-brand-amber hover:bg-amber-400 text-brand-black font-bold py-6 uppercase tracking-wide"
+                  className="flex-1 bg-brand-orange hover:opacity-90 text-brand-black font-bold py-6 uppercase tracking-wide"
                   onClick={() => setStep(3)}
                   disabled={!step2Valid}
                 >
@@ -414,16 +414,16 @@ export default function OrderPage() {
               </div>
 
               {/* Payment stub */}
-              <div className="bg-brand-black rounded-xl p-6 mb-5">
+              <div className="bg-brand-orange rounded-xl p-6 mb-5">
                 <div className="text-white font-bold text-sm mb-1">
                   DUE TODAY — $500 DEPOSIT
                 </div>
-                <div className="text-gray-500 text-xs mb-5">
+                <div className="text-orange-100 text-xs mb-5">
                   Balance of ${(total - DEPOSIT).toLocaleString()} charged at job close
                 </div>
-                <div className="bg-brand-dark border border-white/10 rounded-lg p-8 text-center">
-                  <p className="text-gray-400 text-sm">[ STRIPE PAYMENT ELEMENT ]</p>
-                  <p className="text-gray-600 text-xs mt-1">
+                <div className="bg-white/10 border border-white/20 rounded-lg p-8 text-center">
+                  <p className="text-white/70 text-sm">[ STRIPE PAYMENT ELEMENT ]</p>
+                  <p className="text-white/50 text-xs mt-1">
                     Credit / Debit Card · Secured by Stripe
                   </p>
                 </div>
@@ -439,7 +439,7 @@ export default function OrderPage() {
                   ← Back
                 </Button>
                 <Button
-                  className="flex-1 bg-brand-amber/40 text-brand-black/50 font-bold py-6 uppercase tracking-wide cursor-not-allowed"
+                  className="flex-1 bg-brand-orange/40 text-brand-black/50 font-bold py-6 uppercase tracking-wide cursor-not-allowed"
                   disabled
                 >
                   Pay $500 Deposit — Coming Soon

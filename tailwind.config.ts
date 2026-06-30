@@ -43,12 +43,14 @@ const config: Config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        // Brand colors
+        // Brand colors — derived from Cann-It logo
         brand: {
-          amber: "#F5A623",
-          black: "#1A1A1A",
+          orange: "#E8620C",  // logo dumpster orange
+          black: "#1A1A1A",   // logo wordmark near-black
           dark: "#2C2C2C",
           gray: "#4A4A4A",
+          light: "#FAF8F5",   // warm off-white page bg
+          cream: "#F0EDEA",   // alternate section bg
         },
       },
       borderRadius: {
