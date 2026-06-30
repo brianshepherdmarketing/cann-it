@@ -38,7 +38,7 @@ export default function SplashPage({
           height={78}
           priority
         />
-        <p className="font-heading text-base font-bold uppercase text-gray-400 tracking-widest mt-4">
+        <p className="font-heading font-bold uppercase text-gray-400 tracking-widest mt-4 text-center w-[260px] text-[clamp(0.6rem,3.5vw,1rem)]">
           YOU FILL IT, WE SPILL IT
         </p>
       </div>
