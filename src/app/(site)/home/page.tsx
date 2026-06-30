@@ -28,18 +28,13 @@ export default function Home() {
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 py-28 md:py-40">
           <div className="max-w-2xl">
-            {/* ↓ [HEADLINE] Replace with final copy */}
             <h1 className="font-heading text-6xl md:text-8xl font-extrabold uppercase leading-none tracking-tight mb-6">
-              DUMPSTERS.
+              YOU FILL IT,
               <br />
-              <span className="text-brand-orange">DELIVERED.</span>
-              <br />
-              DONE.
+              <span className="text-brand-orange">WE SPILL IT.</span>
             </h1>
-            {/* ↓ [SUBHEAD] Replace with final copy */}
             <p className="text-lg md:text-xl text-gray-300 max-w-lg mb-10 leading-relaxed">
-              You fill it, we spill it. Residential and construction
-              dumpster rentals — fast drop-off, easy pickup, no surprises.
+              Residential and construction dumpster rentals — fast drop-off, easy pickup, no surprises.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/order">
@@ -47,7 +42,7 @@ export default function Home() {
                   Get a Quote
                 </Button>
               </Link>
-              <Link href="#pricing">
+              <Link href="/pricing">
                 <Button
                   variant="outline"
                   className="border-white text-white hover:bg-white/10 text-base px-8 py-6 uppercase tracking-wide"
