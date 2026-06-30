@@ -39,10 +39,7 @@ export default function SplashPage({
           className="w-full h-auto mix-blend-multiply"
           priority
         />
-        <p
-          className="font-heading text-sm font-bold uppercase text-gray-400 mt-4 w-full"
-          style={{ textAlign: "justify", textAlignLast: "justify" }}
-        >
+        <p className="font-heading text-xl font-bold uppercase text-gray-400 mt-4 text-center w-full">
           YOU FILL IT, WE SPILL IT
         </p>
       </div>
