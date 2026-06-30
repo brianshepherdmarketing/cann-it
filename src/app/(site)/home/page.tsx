@@ -86,6 +86,70 @@ export default function Home() {
       </section>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          DUMPSTER SIZE CARDS
+          CONTENT NEEDED:
+            • [SIZE IMAGES] One photo per dumpster size.
+              Recommended: landscape, 600×400px+, consistent angle
+              10 YD — small compact bin
+              20 YD — mid-size (most popular)
+              30 YD — large roll-off
+              40 YD — largest roll-off
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section id="sizes" className="bg-brand-cream py-24">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="font-heading text-4xl md:text-6xl font-extrabold text-brand-black uppercase text-center mb-4">
+            ROLL-OFF DUMPSTER RENTALS
+          </h2>
+          <p className="text-center text-gray-500 mb-16 max-w-xl mx-auto">
+            Get the right size for your job — fast drop-off, easy pickup, no hidden fees.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {(["10yd", "20yd", "30yd", "40yd"] as DumpsterSize[]).map((size) => {
+              const { label, dimensions, uses, popular } = DUMPSTER_SPECS[size];
+              return (
+                <div key={size} className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col shadow-sm">
+                  {/* ↓ [SIZE IMAGE] Replace div with next/image when ready */}
+                  <div className="bg-gray-100 h-44 flex items-center justify-center text-xs text-gray-400 text-center px-4">
+                    [ {label} YD dumpster image ]
+                  </div>
+                  <div className="p-6 flex flex-col flex-1">
+                    {popular && (
+                      <span className="inline-block bg-brand-orange text-white text-xs font-bold tracking-wide px-2 py-0.5 rounded mb-2 uppercase self-start">
+                        Most Popular
+                      </span>
+                    )}
+                    <h3 className="font-heading text-2xl font-extrabold text-brand-black uppercase">
+                      {label} Dumpster
+                    </h3>
+                    <p className="text-xs text-gray-400 mt-0.5 mb-4">{dimensions}</p>
+                    <ul className="text-sm text-gray-600 space-y-1 flex-1 mb-6">
+                      {uses.map((u) => (
+                        <li key={u} className="flex items-center gap-2">
+                          <span className="text-brand-orange font-bold shrink-0">✓</span> {u}
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href="/order">
+                      <Button className="w-full bg-brand-orange hover:opacity-90 text-white font-bold uppercase tracking-wide">
+                        Get a Quote
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link href="/pricing" className="text-brand-orange font-semibold hover:underline text-sm uppercase tracking-wide">
+              View full pricing calculator →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           HOW IT WORKS
           CONTENT NEEDED:
             • [STEP COPY] 2–3 sentences per step (3 steps below)
@@ -230,70 +294,6 @@ export default function Home() {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          DUMPSTER SIZE CARDS
-          CONTENT NEEDED:
-            • [SIZE IMAGES] One photo per dumpster size.
-              Recommended: landscape, 600×400px+, consistent angle
-              10 YD — small compact bin
-              20 YD — mid-size (most popular)
-              30 YD — large roll-off
-              40 YD — largest roll-off
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section id="sizes" className="bg-brand-cream py-24">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="font-heading text-4xl md:text-6xl font-extrabold text-brand-black uppercase text-center mb-4">
-            ROLL-OFF DUMPSTER RENTALS
-          </h2>
-          <p className="text-center text-gray-500 mb-16 max-w-xl mx-auto">
-            Get the right size for your job — fast drop-off, easy pickup, no hidden fees.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(["10yd", "20yd", "30yd", "40yd"] as DumpsterSize[]).map((size) => {
-              const { label, dimensions, uses, popular } = DUMPSTER_SPECS[size];
-              return (
-                <div key={size} className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col shadow-sm">
-                  {/* ↓ [SIZE IMAGE] Replace div with next/image when ready */}
-                  <div className="bg-gray-100 h-44 flex items-center justify-center text-xs text-gray-400 text-center px-4">
-                    [ {label} YD dumpster image ]
-                  </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    {popular && (
-                      <span className="inline-block bg-brand-orange text-white text-xs font-bold tracking-wide px-2 py-0.5 rounded mb-2 uppercase self-start">
-                        Most Popular
-                      </span>
-                    )}
-                    <h3 className="font-heading text-2xl font-extrabold text-brand-black uppercase">
-                      {label} Dumpster
-                    </h3>
-                    <p className="text-xs text-gray-400 mt-0.5 mb-4">{dimensions}</p>
-                    <ul className="text-sm text-gray-600 space-y-1 flex-1 mb-6">
-                      {uses.map((u) => (
-                        <li key={u} className="flex items-center gap-2">
-                          <span className="text-brand-orange font-bold shrink-0">✓</span> {u}
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href="/order">
-                      <Button className="w-full bg-brand-orange hover:opacity-90 text-white font-bold uppercase tracking-wide">
-                        Get a Quote
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-10">
-            <Link href="/pricing" className="text-brand-orange font-semibold hover:underline text-sm uppercase tracking-wide">
-              View full pricing calculator →
-            </Link>
           </div>
         </div>
       </section>
