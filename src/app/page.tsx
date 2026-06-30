@@ -30,15 +30,16 @@ export default function SplashPage({
 }) {
   return (
     <main className="min-h-screen bg-brand-light flex flex-col items-center justify-center px-4">
-      <div className="flex flex-col items-center mb-10">
+      <div className="flex flex-col items-center mb-10 w-full max-w-[260px]">
         <Image
           src="/logo.png"
           alt="Cann-It Dumpster Rentals"
           width={260}
           height={78}
+          className="w-full h-auto"
           priority
         />
-        <p className="font-heading font-bold uppercase text-gray-400 tracking-widest mt-4 text-center w-[260px] text-[clamp(0.6rem,3.5vw,1rem)]">
+        <p className="font-heading text-sm font-bold uppercase text-gray-400 tracking-widest mt-4 text-center w-full">
           YOU FILL IT, WE SPILL IT
         </p>
       </div>
