@@ -44,8 +44,8 @@ export default function Home() {
               </Link>
               <Link href="/pricing">
                 <Button
-                  variant="outline"
-                  className="bg-transparent border-white text-white hover:bg-white/10 text-base px-8 py-6 uppercase tracking-wide"
+                  variant="ghost"
+                  className="bg-transparent border border-white text-white hover:bg-white/10 hover:text-white text-base px-8 py-6 uppercase tracking-wide"
                 >
                   See Pricing
                 </Button>
