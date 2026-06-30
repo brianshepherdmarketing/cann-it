@@ -205,7 +205,7 @@ export default function AdminPage() {
               <DL>
                 <DLRow
                   label="Size"
-                  value={`${selected.dumpsterSize === "20yd" ? "20 YD" : "30 YD"}`}
+                  value={selected.dumpsterSize.replace("yd", " YD")}
                 />
                 <DLRow label="Drop-off" value={selected.dropoffDate} />
                 <DLRow label="Est. Pickup" value={selected.pickupDate} />
@@ -320,8 +320,7 @@ export default function AdminPage() {
                 <span>📍 {job.deliveryAddress}</span>
                 <span>📅 Drop: {job.dropoffDate}</span>
                 <span>
-                  🗑️ {job.dumpsterSize === "20yd" ? "20 YD" : "30 YD"} ·{" "}
-                  {job.customerType}
+                  🗑️ {job.dumpsterSize.replace("yd", " YD")} · {job.customerType}
                 </span>
                 <span>💰 Est. ${job.estimatedTotal.toLocaleString()}</span>
               </div>

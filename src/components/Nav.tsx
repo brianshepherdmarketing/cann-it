@@ -23,7 +23,7 @@ export default function Nav() {
             How It Works
           </Link>
           <Link
-            href="/home#pricing"
+            href="/pricing"
             className="text-sm font-medium text-brand-gray hover:text-brand-orange transition-colors uppercase tracking-wide"
           >
             Pricing

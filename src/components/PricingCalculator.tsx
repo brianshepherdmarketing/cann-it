@@ -8,6 +8,7 @@ import {
   RATES,
   calculateEstimate,
   DEPOSIT,
+  DUMPSTER_SPECS,
   type CustomerType,
   type DumpsterSize,
 } from "@/lib/pricing";
@@ -52,7 +53,7 @@ export default function PricingCalculator() {
             Dumpster Size
           </Label>
           <div className="grid grid-cols-2 gap-2">
-            {(["20yd", "30yd"] as DumpsterSize[]).map((s) => (
+            {(["10yd", "20yd", "30yd", "40yd"] as DumpsterSize[]).map((s) => (
               <button
                 key={s}
                 onClick={() => setSize(s)}
@@ -62,7 +63,7 @@ export default function PricingCalculator() {
                     : "bg-white text-gray-500 border-gray-200 hover:border-brand-orange"
                 }`}
               >
-                {s === "20yd" ? "20 YD" : "30 YD"}
+                {DUMPSTER_SPECS[s].label}
               </button>
             ))}
           </div>

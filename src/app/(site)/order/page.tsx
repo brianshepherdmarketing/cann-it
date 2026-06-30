@@ -9,6 +9,7 @@ import {
   RATES,
   calculateEstimate,
   DEPOSIT,
+  DUMPSTER_SPECS,
   type CustomerType,
   type DumpsterSize,
 } from "@/lib/pricing";
@@ -34,7 +35,7 @@ const empty: FormData = {
   customerPhone: "",
   customerType: "residential",
   rentalDays: 7,
-  dumpsterSize: "20yd",
+  dumpsterSize: "20yd" as DumpsterSize,
   dropoffDate: "",
   pickupDate: "",
   deliveryAddress: "",
@@ -263,25 +264,26 @@ export default function OrderPage() {
                 <div>
                   <Label className="mb-2 block">Dumpster Size</Label>
                   <div className="grid grid-cols-2 gap-3">
-                    {(["20yd", "30yd"] as DumpsterSize[]).map((s) => (
-                      <button
-                        key={s}
-                        type="button"
-                        onClick={() => set("dumpsterSize", s)}
-                        className={`py-4 rounded-xl border-2 text-sm font-bold transition-colors ${
-                          form.dumpsterSize === s
-                            ? "border-brand-orange bg-brand-orange/10 text-brand-black"
-                            : "border-gray-200 text-gray-500 hover:border-gray-300"
-                        }`}
-                      >
-                        <div className="text-xl font-extrabold font-heading">
-                          {s === "20yd" ? "20 YD" : "30 YD"}
-                        </div>
-                        <div className="text-xs mt-1 font-normal capitalize">
-                          {s === "20yd" ? "Cleanouts & light demo" : "Big renovations & construction"}
-                        </div>
-                      </button>
-                    ))}
+                    {(["10yd", "20yd", "30yd", "40yd"] as DumpsterSize[]).map((s) => {
+                      const { label, uses } = DUMPSTER_SPECS[s];
+                      return (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => set("dumpsterSize", s)}
+                          className={`py-4 px-3 rounded-xl border-2 text-sm font-bold transition-colors text-left ${
+                            form.dumpsterSize === s
+                              ? "border-brand-orange bg-brand-orange/10 text-brand-black"
+                              : "border-gray-200 text-gray-500 hover:border-gray-300"
+                          }`}
+                        >
+                          <div className="text-xl font-extrabold font-heading">{label}</div>
+                          <div className="text-xs mt-1 font-normal text-gray-400 leading-snug">
+                            {uses[0]}
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -383,7 +385,7 @@ export default function OrderPage() {
                 <div className="border-t border-gray-200 pt-2 space-y-2">
                   <Row
                     label="Dumpster"
-                    value={`${form.dumpsterSize === "20yd" ? "20 YD" : "30 YD"}`}
+                    value={`${DUMPSTER_SPECS[form.dumpsterSize].label} Dumpster`}
                   />
                   <Row label="Rental" value={form.rentalDays === 1 ? "Same day" : `${form.rentalDays} days`} />
                   <Row label="Address" value={form.deliveryAddress} />
