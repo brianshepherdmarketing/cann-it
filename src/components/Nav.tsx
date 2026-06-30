@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Nav() {
   return (
     <nav className="bg-white border-b border-brand-cream sticky top-0 z-50 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 h-24 flex items-center justify-between">
         <Link href="/home" className="flex items-center">
           <Image
             src="/logo.png"
