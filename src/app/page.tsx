@@ -30,16 +30,19 @@ export default function SplashPage({
 }) {
   return (
     <main className="min-h-screen bg-brand-light flex flex-col items-center justify-center px-4">
-      <div className="flex flex-col items-center mb-10 w-full max-w-[260px]">
+      <div className="flex flex-col items-center mb-10 w-4/5 max-w-[320px] sm:max-w-[260px]">
         <Image
           src="/logo.png"
           alt="Cann-It Dumpster Rentals"
           width={260}
           height={78}
-          className="w-full h-auto"
+          className="w-full h-auto mix-blend-multiply"
           priority
         />
-        <p className="font-heading text-sm font-bold uppercase text-gray-400 tracking-widest mt-4 text-center w-full">
+        <p
+          className="font-heading text-sm font-bold uppercase text-gray-400 mt-4 w-full"
+          style={{ textAlign: "justify", textAlignLast: "justify" }}
+        >
           YOU FILL IT, WE SPILL IT
         </p>
       </div>
