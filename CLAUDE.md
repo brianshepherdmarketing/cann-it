@@ -112,10 +112,11 @@ scheduled → active → complete → archived
 / (Home)
   Hero — bold headline, tagline, dual CTA
   Trust strip — stats or service highlights
+  Scope of service — "We Handle The Heavy Lifting" (3 feature callouts)
+  Dumpster size cards — 10/20/30 YD, one flat rate for everyone
   How it works — 3 steps
-  Service tiers — Residential vs Construction cards
-  Pricing calculator — interactive, live total
   Service area — text or simple map
+  Bottom CTA banner
   Footer
 
 /order
@@ -123,9 +124,10 @@ scheduled → active → complete → archived
   Stripe $500 deposit checkout
 
 /admin (password protected — env var)
-  List of open jobs
+  List of open jobs — searchable (name/email/phone/address) and sortable (newest first | status)
   Job detail: customer info, dumpster size, dates, estimated total
-  Input: final total
+  Job-close inputs: actual weight, relocation pulls, overfilled checkbox → computes a suggested final total (weight overage + relocation + overfill fees)
+  Input: final total (accepts the suggestion or any manual override)
   Button: Charge Balance → fires Stripe charge → sends receipt
 
 /api/stripe/webhook

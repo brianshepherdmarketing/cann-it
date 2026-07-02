@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
 import {
   DUMPSTER_SPECS,
   RELOCATION_FEE,
@@ -72,6 +73,9 @@ const STATUS_STYLE: Record<string, string> = {
   archived: "bg-gray-100 text-gray-400",
 };
 
+// scheduled → active → complete → archived, per the job lifecycle
+const STATUS_ORDER = Object.keys(STATUS_STYLE);
+
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [pw, setPw] = useState("");
@@ -82,6 +86,8 @@ export default function AdminPage() {
   const [relocations, setRelocations] = useState("0");
   const [overfill, setOverfill] = useState(false);
   const [charging, setCharging] = useState(false);
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState<"date" | "status">("date");
 
   function login() {
     // Temporary client-side gate — will be replaced by middleware checking ADMIN_PASSWORD env var
@@ -105,6 +111,22 @@ export default function AdminPage() {
     ? selected.estimatedTotal + weightOverageFee + relocationFee + overfillFeeAmount
     : 0;
   const hasExtras = weightOverageFee > 0 || relocationFee > 0 || overfillFeeAmount > 0;
+
+  const visibleJobs = MOCK_JOBS.filter((job) => {
+    const q = search.trim().toLowerCase();
+    if (!q) return true;
+    return (
+      job.customerName.toLowerCase().includes(q) ||
+      job.customerEmail.toLowerCase().includes(q) ||
+      job.customerPhone.toLowerCase().includes(q) ||
+      job.deliveryAddress.toLowerCase().includes(q)
+    );
+  }).sort((a, b) => {
+    if (sortBy === "status") {
+      return STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status);
+    }
+    return b.createdAt.localeCompare(a.createdAt);
+  });
 
   function handleCharge() {
     setCharging(true);
@@ -391,8 +413,32 @@ export default function AdminPage() {
           </span>
         </div>
 
+        <div className="flex flex-col sm:flex-row gap-3 mb-5">
+          <Input
+            type="search"
+            placeholder="Search by name, email, phone, or address..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="sm:flex-1"
+          />
+          <Select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as "date" | "status")}
+            className="sm:w-48"
+          >
+            <option value="date">Sort: Newest first</option>
+            <option value="status">Sort: Status</option>
+          </Select>
+        </div>
+
+        {visibleJobs.length === 0 && (
+          <p className="text-sm text-gray-400 py-8 text-center">
+            No jobs match &ldquo;{search}&rdquo;.
+          </p>
+        )}
+
         <div className="space-y-3">
-          {MOCK_JOBS.map((job) => (
+          {visibleJobs.map((job) => (
             <button
               key={job.id}
               onClick={() => setSelectedId(job.id)}
