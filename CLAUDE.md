@@ -32,44 +32,44 @@
 ---
 
 ## Pricing Model
+Source of truth: `src/lib/pricing.ts`. Confirmed by Billy 2026-07-02 (Pricepoint Proposal) — replaces the earlier residential/construction rate-matrix model below.
 
 ### Variables
-- **Customer tier:** Residential | Commercial
-- **Dumpster size:** Small | Large
-- **Fees:** Drop-off fee + Pickup fee + Daily rate × number of days
+- **Dumpster size:** 10 YD | 20 YD | 30 YD (one flat rate structure for everyone — no residential/construction price split)
+- **Fees:** Flat drop-off+pickup fee + Daily rate × billable days, plus job-close extras (weight overage, relocation, overfill) entered by Billy in the admin panel
 
-### Formula
-```
-total = drop_fee + pickup_fee + (daily_rate × days)
-```
-
-### Rate matrix
+### Core rates
 ```js
-const RATES = {
-  residential: {
-    small: { drop: 600, pickup: 600, daily: 100 },
-    large: { drop: 700, pickup: 700, daily: 100 },
-  },
-  construction: {
-    small: { drop: 500, pickup: 500, daily: 100 },
-    large: { drop: 600, pickup: 600, daily: 100 },
-  },
-}
+const FLAT_RATE = 350;              // drop-off + pickup, combined, all sizes
+const DAILY_RATE = 100;             // per day on-site
+const RELOCATION_FEE = 100;         // per on-site reposition ("pull")
+const OVERFILL_FEE = 150;           // loaded above the container's side walls
+const OVERAGE_PER_HALF_TON = 99;    // per 1,000 lbs over the included weight allowance
 ```
 
-### Pricing formula
+### Size specs
+| Size | Weight Included | First Day Free |
+|------|-----------------|-----------------|
+| 10 YD | 1,000 lbs (0.5 ton) | Yes |
+| 20 YD | 1,750 lbs (0.875 ton) | No |
+| 30 YD | 3,500 lbs (1.75 ton) | Yes |
+
+### Estimate formula (at booking — weight unknown until pickup)
 ```
-total = drop_fee + pickup_fee + (daily_rate × days)
+billableDays = totalDays - (firstDayFree ? 1 : 0), floored at 0
+estimatedTotal = FLAT_RATE + (DAILY_RATE × billableDays)
 ```
 
-### Notes
-- Drop-off fee and pickup fee are SEPARATE charges, each the same dollar amount per event
-- Large (20 YD) adds $100 to EACH of drop and pickup vs small (10 YD)
-- Residential small: $600 drop + $600 pickup · large: $700 drop + $700 pickup
-- Construction small: $500 drop + $500 pickup · large: $600 drop + $600 pickup
-- Daily rate is the same across all tiers and sizes ($100/day)
-- TOS surcharge applies for anything outside of standard waste (non-waste materials, hazardous, etc.) — Billy handles this manually at job close via admin panel
-- Construction customers may receive custom pricing for repeat/volume — handled offline by Billy, admin panel supports inputting any final total
+### Job-close extras (admin-entered, not part of the booking estimate)
+- **Weight overage:** `ceil(max(0, actualWeightLbs - weightAllowanceLbs) / 1000) × $99`
+- **Relocation:** `$100 × number of pulls`
+- **Overfill:** flat `$150` if loaded above the side walls
+- Final total = estimate + any of the above, or any custom amount Billy enters directly
+
+### Prohibited materials & rules (shown on `/pricing`)
+- Strictly prohibited: batteries, tires, paints, liquids, oils, chemicals, asbestos, flammable liquids, biohazardous/medical waste
+- Special handling fees may apply for large appliances, mattresses, e-waste (set by the local disposal facility)
+- Nothing above the container's side walls — overfill triggers the $150 fee, dry-run fees, sorting penalties, or rejection at customer's expense
 
 ---
 
@@ -149,10 +149,9 @@ scheduled → active → complete → archived
   customerName: string
   customerEmail: string
   customerPhone: string
-  customerType: 'residential' | 'construction'
   
   // Job
-  dumpsterSize: 'small' | 'large'
+  dumpsterSize: '10yd' | '20yd' | '30yd'
   dropoffDate: Date
   pickupDate: Date  // estimated at booking, confirmed at close
   deliveryAddress: string
@@ -163,6 +162,7 @@ scheduled → active → complete → archived
   finalTotal: number | null
   depositPaid: number  // 500
   balanceCharged: number | null
+  actualWeightLbs: number | null  // entered by admin at job close, drives weight overage fee
   
   // Stripe
   stripeCustomerId: string

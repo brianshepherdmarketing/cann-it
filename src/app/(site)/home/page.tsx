@@ -34,7 +34,7 @@ export default function Home() {
               <span className="text-brand-orange">WE SPILL IT.</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-lg mb-10 leading-relaxed">
-              Residential and construction dumpster rentals — fast drop-off, easy pickup, no surprises.
+              Dumpster rentals for any job — fast drop-off, easy pickup, no surprises.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/order">
@@ -81,6 +81,44 @@ export default function Home() {
       </section>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          SCOPE OF SERVICE
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="bg-white py-20 border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="font-heading text-3xl md:text-5xl font-extrabold text-brand-black uppercase text-center mb-4">
+            WE HANDLE THE HEAVY LIFTING
+          </h2>
+          <p className="text-center text-gray-500 mb-14 max-w-xl mx-auto">
+            Container transport specialists, start to finish — so you can focus on the project, not the logistics.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              {
+                title: "On-Demand Scheduling",
+                body: "Book your exact drop-off and pick-up dates online, on your schedule.",
+              },
+              {
+                title: "Prompt Delivery & Retrieval",
+                body: "Professional transport, placement, and final haul-away by licensed specialists.",
+              },
+              {
+                title: "Hassle-Free Payments",
+                body: "Secure, streamlined digital payment — no paperwork, no delays.",
+              },
+            ].map(({ title, body }) => (
+              <div key={title}>
+                <div className="w-10 h-1.5 bg-brand-orange rounded-full mb-4" />
+                <h3 className="font-heading text-xl font-extrabold text-brand-black uppercase mb-2">
+                  {title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           DUMPSTER SIZE CARDS
           CONTENT NEEDED:
             • [SIZE IMAGES] One photo per dumpster size.
@@ -88,7 +126,6 @@ export default function Home() {
               10 YD — small compact bin
               20 YD — mid-size (most popular)
               30 YD — large roll-off
-              40 YD — largest roll-off
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section id="sizes" className="bg-brand-cream py-24">
         <div className="max-w-6xl mx-auto px-4">
@@ -99,8 +136,8 @@ export default function Home() {
             Get the right size for your job — fast drop-off, easy pickup, no hidden fees.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(["10yd", "20yd", "30yd", "40yd"] as DumpsterSize[]).map((size) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {(["10yd", "20yd", "30yd"] as DumpsterSize[]).map((size) => {
               const { label, dimensions, uses, popular } = DUMPSTER_SPECS[size];
               return (
                 <div key={size} className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col shadow-sm">
@@ -127,7 +164,7 @@ export default function Home() {
                     </ul>
                     <Link href="/order">
                       <Button className="w-full bg-brand-orange hover:opacity-90 text-white font-bold uppercase tracking-wide">
-                        Get a Quote
+                        Book Now
                       </Button>
                     </Link>
                   </div>
@@ -185,7 +222,7 @@ export default function Home() {
               },
               {
                 step: "03",
-                title: "FILL IT. WE HAUL IT.",
+                title: "YOU FILL IT. WE SPILL IT.",
                 // ↓ [STEP 3 COPY]
                 body: "We show up on schedule, drop the can, and get out of your way. When you're done, one call and we come haul everything off. That's the whole job.",
                 // ↓ [STEP 3 IMAGE]
@@ -206,89 +243,6 @@ export default function Home() {
                 <p className="text-gray-600 text-sm leading-relaxed">{body}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          SERVICE TIERS
-          CONTENT NEEDED:
-            • [RESIDENTIAL IMAGE] Home cleanout, garage, moving
-              boxes, yard debris. Bright/daytime preferred.
-              Recommended: landscape, 800×500px+
-            • [CONSTRUCTION IMAGE] Job site, lumber, drywall,
-              concrete, renovation debris. Can be darker/grittier.
-              Recommended: landscape, 800×500px+
-            • [TIER BULLETS] Confirm bullet points match what you
-              actually accept in each tier
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="bg-gray-50 py-24">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="font-heading text-4xl md:text-6xl font-extrabold text-brand-black uppercase text-center mb-4">
-            WHAT ARE YOU HAULING?
-          </h2>
-          {/* ↓ [SUBHEAD] Replace with final copy */}
-          <p className="text-center text-gray-500 mb-16 max-w-xl mx-auto">
-            Whether you&apos;re cleaning out the garage or clearing a job site,
-            we&apos;ve got the right can.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Residential */}
-            <div className="bg-white rounded-2xl overflow-hidden border border-gray-200">
-              {/* ↓ [RESIDENTIAL IMAGE] */}
-              <div className="bg-gray-100 h-52 flex items-center justify-center text-xs text-gray-400 text-center px-6">
-                [ IMAGE: Residential cleanout — garage, home, moving boxes, yard debris ]
-                <br />
-                Recommended: bright, daytime, 800×500px+
-              </div>
-              <div className="p-7">
-                <span className="inline-block bg-brand-orange/10 text-brand-orange text-xs font-bold tracking-widest px-3 py-1 rounded-full mb-3 uppercase">
-                  Residential
-                </span>
-                <h3 className="font-heading text-2xl font-extrabold text-brand-black uppercase mb-3">
-                  HOME CLEANOUTS &amp; JUNK REMOVAL
-                </h3>
-                {/* ↓ [RESIDENTIAL BULLETS] Confirm these match what you accept */}
-                <ul className="text-sm text-gray-600 space-y-1 mb-5">
-                  <li>✓ Garage and basement cleanouts</li>
-                  <li>✓ Moving and estate cleanouts</li>
-                  <li>✓ Yard waste and landscaping debris</li>
-                  <li>✓ General household junk</li>
-                </ul>
-                <p className="text-sm text-gray-500">
-                  $600 drop-off · $600 pickup · $100/day
-                </p>
-              </div>
-            </div>
-
-            {/* Construction */}
-            <div className="bg-brand-black rounded-2xl overflow-hidden">
-              {/* ↓ [CONSTRUCTION IMAGE] */}
-              <div className="bg-brand-dark h-52 flex items-center justify-center text-xs text-gray-500 text-center px-6">
-                [ IMAGE: Construction/commercial — job site, lumber, drywall, concrete, demo debris ]
-                <br />
-                Can be gritty/industrial, 800×500px+
-              </div>
-              <div className="p-7">
-                <span className="inline-block bg-brand-orange/20 text-brand-orange text-xs font-bold tracking-widest px-3 py-1 rounded-full mb-3 uppercase">
-                  Construction
-                </span>
-                <h3 className="font-heading text-2xl font-extrabold text-white uppercase mb-3">
-                  CONSTRUCTION &amp; RENOVATION
-                </h3>
-                {/* ↓ [CONSTRUCTION BULLETS] Confirm these match what you accept */}
-                <ul className="text-sm text-gray-400 space-y-1 mb-5">
-                  <li>✓ Renovation and remodel debris</li>
-                  <li>✓ Roofing materials and shingles</li>
-                  <li>✓ Lumber, drywall, and concrete</li>
-                  <li>✓ Demo and new construction waste</li>
-                </ul>
-                <p className="text-sm text-gray-500">
-                  $500 drop-off · $500 pickup · $100/day
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>

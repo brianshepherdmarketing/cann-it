@@ -6,11 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  RATES,
+  FLAT_RATE,
+  DAILY_RATE,
   calculateEstimate,
+  billableDays,
   DEPOSIT,
   DUMPSTER_SPECS,
-  type CustomerType,
   type DumpsterSize,
 } from "@/lib/pricing";
 
@@ -20,8 +21,7 @@ interface FormData {
   customerName: string;
   customerEmail: string;
   customerPhone: string;
-  customerType: CustomerType;
-  rentalDays: number;        // total days: drop-off day + days between + pickup day
+  rentalDays: number;        // total days the container is on-site
   dumpsterSize: DumpsterSize;
   dropoffDate: string;
   pickupDate: string;        // always derived: dropoffDate + rentalDays
@@ -33,7 +33,6 @@ const empty: FormData = {
   customerName: "",
   customerEmail: "",
   customerPhone: "",
-  customerType: "residential",
   rentalDays: 7,
   dumpsterSize: "20yd" as DumpsterSize,
   dropoffDate: "",
@@ -48,11 +47,6 @@ function computePickup(dropoff: string, rentalDays: number): string {
   const d = new Date(dropoff);
   d.setDate(d.getDate() + rentalDays);
   return d.toISOString().split("T")[0];
-}
-
-// drop-off day and pickup day are both free — only days in between are billed
-function toBillable(rentalDays: number): number {
-  return Math.max(0, rentalDays - 2);
 }
 
 function formatDate(iso: string): string {
@@ -71,9 +65,9 @@ export default function OrderPage() {
   const [step, setStep] = useState<Step>(1);
   const [form, setForm] = useState<FormData>(empty);
 
-  const billable = toBillable(form.rentalDays);
-  const total = calculateEstimate(form.customerType, form.dumpsterSize, billable);
-  const { drop, daily } = RATES[form.customerType][form.dumpsterSize];
+  const spec = DUMPSTER_SPECS[form.dumpsterSize];
+  const billable = billableDays(form.dumpsterSize, form.rentalDays);
+  const total = calculateEstimate(form.dumpsterSize, form.rentalDays);
 
   function set<K extends keyof FormData>(key: K, val: FormData[K]) {
     setForm((f) => ({ ...f, [key]: val }));
@@ -181,26 +175,6 @@ export default function OrderPage() {
                   />
                 </div>
 
-                <div>
-                  <Label className="mb-2 block">I Am A</Label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {(["residential", "construction"] as CustomerType[]).map((t) => (
-                      <button
-                        key={t}
-                        type="button"
-                        onClick={() => set("customerType", t)}
-                        className={`py-3 rounded-xl border-2 text-sm font-bold uppercase tracking-wide transition-colors ${
-                          form.customerType === t
-                            ? "border-brand-orange bg-brand-orange/10 text-brand-black"
-                            : "border-gray-200 text-gray-500 hover:border-gray-300"
-                        }`}
-                      >
-                        {t}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
                 {/* ── Rental duration ── */}
                 <div>
                   <Label className="mb-2 block">How Long Do You Need It?</Label>
@@ -220,7 +194,7 @@ export default function OrderPage() {
                       </div>
                       <div className="text-xs text-gray-500 mt-0.5">
                         {billable === 0
-                          ? "No daily rate — just drop-off & pickup fees"
+                          ? "First day free — no daily rate"
                           : `${billable} billable day${billable !== 1 ? "s" : ""} × $100`}
                       </div>
                     </div>
@@ -235,7 +209,7 @@ export default function OrderPage() {
                     </button>
                   </div>
                   <p className="text-xs text-gray-400 mt-1.5 text-center">
-                    Drop-off and pickup days are always free
+                    $350 flat rate covers drop-off & pickup — 10 &amp; 30 YD also get the first day free
                   </p>
                 </div>
               </div>
@@ -263,8 +237,8 @@ export default function OrderPage() {
               <div className="space-y-5">
                 <div>
                   <Label className="mb-2 block">Dumpster Size</Label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {(["10yd", "20yd", "30yd", "40yd"] as DumpsterSize[]).map((s) => {
+                  <div className="grid grid-cols-3 gap-3">
+                    {(["10yd", "20yd", "30yd"] as DumpsterSize[]).map((s) => {
                       const { label, uses } = DUMPSTER_SPECS[s];
                       return (
                         <button
@@ -381,7 +355,6 @@ export default function OrderPage() {
                 <Row label="Name" value={form.customerName} />
                 <Row label="Email" value={form.customerEmail} />
                 <Row label="Phone" value={form.customerPhone} />
-                <Row label="Type" value={form.customerType} capitalize />
                 <div className="border-t border-gray-200 pt-2 space-y-2">
                   <Row
                     label="Dumpster"
@@ -398,21 +371,26 @@ export default function OrderPage() {
               {/* Pricing breakdown */}
               <div className="border border-gray-200 rounded-xl p-5 mb-5 text-sm">
                 <div className="flex justify-between text-gray-500 mb-1">
-                  <span>Drop-off fee</span>
-                  <span>${drop}</span>
+                  <span>Drop-off &amp; pickup (flat rate)</span>
+                  <span>${FLAT_RATE}</span>
                 </div>
                 <div className="flex justify-between text-gray-500 mb-1">
                   <span>
-                    {billable === 0
-                      ? "Daily rate (drop-off + pickup day are free)"
-                      : `$${daily}/day × ${billable} day${billable !== 1 ? "s" : ""}`}
+                    {spec.firstDayFree
+                      ? billable === 0
+                        ? "Daily rate (first day free)"
+                        : `$${DAILY_RATE}/day × ${billable} day${billable !== 1 ? "s" : ""} (first day free)`
+                      : `$${DAILY_RATE}/day × ${billable} day${billable !== 1 ? "s" : ""}`}
                   </span>
-                  <span>${daily * billable}</span>
+                  <span>${DAILY_RATE * billable}</span>
                 </div>
                 <div className="border-t border-gray-200 pt-2 flex justify-between font-bold text-base text-brand-black">
                   <span>Estimated Total</span>
                   <span>${total.toLocaleString()}</span>
                 </div>
+                <p className="text-xs text-gray-400 pt-2">
+                  Includes {spec.weightAllowanceLbs.toLocaleString()} lbs. Overage, relocation, and overfill fees (if any) are added at job close.
+                </p>
               </div>
 
               {/* Payment stub */}

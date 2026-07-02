@@ -16,18 +16,18 @@ model Booking {
   customerName  String
   customerEmail String
   customerPhone String
-  customerType  String // residential | construction
 
-  dumpsterSize    String   // small | large
+  dumpsterSize    String   // 10yd | 20yd | 30yd
   dropoffDate     DateTime
   pickupDate      DateTime
   deliveryAddress String
   notes           String?
 
-  estimatedTotal Float
-  finalTotal     Float?
-  depositPaid    Float  @default(500)
-  balanceCharged Float?
+  estimatedTotal  Float
+  finalTotal      Float?
+  depositPaid     Float  @default(500)
+  balanceCharged  Float?
+  actualWeightLbs Float? // entered by admin at job close, drives weight overage fee
 
   stripeCustomerId             String?
   stripePaymentMethodId        String?

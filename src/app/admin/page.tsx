@@ -5,6 +5,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  DUMPSTER_SPECS,
+  RELOCATION_FEE,
+  OVERFILL_FEE,
+  calculateWeightOverageFee,
+  type DumpsterSize,
+} from "@/lib/pricing";
 
 // ── Mock data — replaced by real DB queries when Stripe + DB are live ──
 const MOCK_JOBS = [
@@ -15,13 +22,12 @@ const MOCK_JOBS = [
     customerName: "Mike Johnson",
     customerEmail: "mike.j@email.com",
     customerPhone: "(555) 234-5678",
-    customerType: "residential",
-    dumpsterSize: "20yd",
+    dumpsterSize: "20yd" as DumpsterSize,
     dropoffDate: "2026-06-10",
     pickupDate: "2026-06-17",
     deliveryAddress: "45 Oak Street, Springfield, IL 62701",
     notes: "Park on the right side of the driveway",
-    estimatedTotal: 1250,
+    estimatedTotal: 1050,
     finalTotal: null as number | null,
     depositPaid: 500,
   },
@@ -32,13 +38,12 @@ const MOCK_JOBS = [
     customerName: "ABC Contractors LLC",
     customerEmail: "dispatch@abccontractors.com",
     customerPhone: "(555) 987-6543",
-    customerType: "construction",
-    dumpsterSize: "30yd",
+    dumpsterSize: "30yd" as DumpsterSize,
     dropoffDate: "2026-06-15",
     pickupDate: "2026-06-22",
     deliveryAddress: "800 Industrial Pkwy, Springfield, IL 62702",
     notes: "",
-    estimatedTotal: 1300,
+    estimatedTotal: 950,
     finalTotal: null as number | null,
     depositPaid: 500,
   },
@@ -49,14 +54,13 @@ const MOCK_JOBS = [
     customerName: "Sarah Williams",
     customerEmail: "sarah.w@gmail.com",
     customerPhone: "(555) 111-2222",
-    customerType: "residential",
-    dumpsterSize: "30yd",
+    dumpsterSize: "30yd" as DumpsterSize,
     dropoffDate: "2026-06-01",
     pickupDate: "2026-06-08",
     deliveryAddress: "112 Maple Ave, Springfield, IL 62703",
     notes: "",
-    estimatedTotal: 1350,
-    finalTotal: 1450,
+    estimatedTotal: 950,
+    finalTotal: 1049,
     depositPaid: 500,
   },
 ];
@@ -74,6 +78,9 @@ export default function AdminPage() {
   const [pwError, setPwError] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [finalTotal, setFinalTotal] = useState("");
+  const [actualWeight, setActualWeight] = useState("");
+  const [relocations, setRelocations] = useState("0");
+  const [overfill, setOverfill] = useState(false);
   const [charging, setCharging] = useState(false);
 
   function login() {
@@ -88,6 +95,16 @@ export default function AdminPage() {
 
   const selected = MOCK_JOBS.find((j) => j.id === selectedId);
   const balance = Number(finalTotal) - 500;
+
+  const weightOverageFee = selected && actualWeight
+    ? calculateWeightOverageFee(selected.dumpsterSize, Number(actualWeight))
+    : 0;
+  const relocationFee = Number(relocations || 0) * RELOCATION_FEE;
+  const overfillFeeAmount = overfill ? OVERFILL_FEE : 0;
+  const suggestedTotal = selected
+    ? selected.estimatedTotal + weightOverageFee + relocationFee + overfillFeeAmount
+    : 0;
+  const hasExtras = weightOverageFee > 0 || relocationFee > 0 || overfillFeeAmount > 0;
 
   function handleCharge() {
     setCharging(true);
@@ -172,6 +189,9 @@ export default function AdminPage() {
             onClick={() => {
               setSelectedId(null);
               setFinalTotal("");
+              setActualWeight("");
+              setRelocations("0");
+              setOverfill(false);
             }}
             className="text-sm text-gray-500 hover:text-brand-black mb-6 flex items-center gap-1 transition-colors"
           >
@@ -196,7 +216,6 @@ export default function AdminPage() {
                 <DLRow label="Name" value={selected.customerName} />
                 <DLRow label="Email" value={selected.customerEmail} />
                 <DLRow label="Phone" value={selected.customerPhone} />
-                <DLRow label="Type" value={selected.customerType} capitalize />
               </DL>
             </Card>
 
@@ -205,7 +224,7 @@ export default function AdminPage() {
               <DL>
                 <DLRow
                   label="Size"
-                  value={selected.dumpsterSize.replace("yd", " YD")}
+                  value={`${selected.dumpsterSize.replace("yd", " YD")} · ${DUMPSTER_SPECS[selected.dumpsterSize].weightAllowanceLbs.toLocaleString()} lbs included`}
                 />
                 <DLRow label="Drop-off" value={selected.dropoffDate} />
                 <DLRow label="Est. Pickup" value={selected.pickupDate} />
@@ -243,9 +262,82 @@ export default function AdminPage() {
             </DL>
 
             {selected.status !== "complete" ? (
-              <div className="space-y-3 border-t border-gray-100 pt-5">
+              <div className="space-y-5 border-t border-gray-100 pt-5">
+                {/* Job-close inputs that drive the suggested final total */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <Label>Actual Weight (lbs)</Label>
+                    <Input
+                      type="number"
+                      placeholder={`e.g. ${DUMPSTER_SPECS[selected.dumpsterSize].weightAllowanceLbs}`}
+                      value={actualWeight}
+                      onChange={(e) => setActualWeight(e.target.value)}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label>Relocation Pulls</Label>
+                    <Input
+                      type="number"
+                      min={0}
+                      value={relocations}
+                      onChange={(e) => setRelocations(e.target.value)}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div className="flex items-end pb-2">
+                    <label className="flex items-center gap-2 text-sm text-gray-600">
+                      <input
+                        type="checkbox"
+                        checked={overfill}
+                        onChange={(e) => setOverfill(e.target.checked)}
+                        className="accent-brand-orange w-4 h-4"
+                      />
+                      Overfilled (+${OVERFILL_FEE})
+                    </label>
+                  </div>
+                </div>
+
+                {hasExtras && (
+                  <div className="bg-gray-50 rounded-lg p-4 text-sm space-y-1">
+                    {weightOverageFee > 0 && (
+                      <div className="flex justify-between text-gray-500">
+                        <span>Weight overage</span>
+                        <span>${weightOverageFee}</span>
+                      </div>
+                    )}
+                    {relocationFee > 0 && (
+                      <div className="flex justify-between text-gray-500">
+                        <span>Relocation ({relocations} pull{Number(relocations) !== 1 ? "s" : ""})</span>
+                        <span>${relocationFee}</span>
+                      </div>
+                    )}
+                    {overfillFeeAmount > 0 && (
+                      <div className="flex justify-between text-gray-500">
+                        <span>Overfill charge</span>
+                        <span>${overfillFeeAmount}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between font-bold text-brand-black border-t border-gray-200 pt-1 mt-1">
+                      <span>Suggested Final Total</span>
+                      <span>${suggestedTotal.toLocaleString()}</span>
+                    </div>
+                  </div>
+                )}
+
                 <div>
-                  <Label>Final Total ($)</Label>
+                  <div className="flex items-center justify-between mt-1">
+                    <Label>Final Total ($)</Label>
+                    {hasExtras && (
+                      <button
+                        type="button"
+                        onClick={() => setFinalTotal(String(suggestedTotal))}
+                        className="text-xs text-brand-orange hover:underline"
+                      >
+                        Use suggested ${suggestedTotal.toLocaleString()}
+                      </button>
+                    )}
+                  </div>
                   <Input
                     type="number"
                     placeholder={`e.g. ${selected.estimatedTotal}`}
@@ -319,9 +411,7 @@ export default function AdminPage() {
               <div className="text-sm text-gray-500 flex flex-wrap gap-x-5 gap-y-1">
                 <span>📍 {job.deliveryAddress}</span>
                 <span>📅 Drop: {job.dropoffDate}</span>
-                <span>
-                  🗑️ {job.dumpsterSize.replace("yd", " YD")} · {job.customerType}
-                </span>
+                <span>🗑️ {job.dumpsterSize.replace("yd", " YD")}</span>
                 <span>💰 Est. ${job.estimatedTotal.toLocaleString()}</span>
               </div>
             </button>
